@@ -1,0 +1,21 @@
+<odoo noupdate="1">
+    <record id="activity_guarantee_expiry" model="mail.activity.type">
+        <field name="name">Guarantee Expiry</field>
+        <field name="res_model">acme.project.guarantee</field>
+        <field name="icon">fa-calendar</field>
+    </record>
+    <record id="activity_project_guarantee_expiry" model="mail.activity.type">
+        <field name="name">Project Guarantee Expiry</field>
+        <field name="res_model">project.project</field>
+        <field name="icon">fa-calendar</field>
+    </record>
+    <record id="cron_guarantee_expiry" model="ir.cron">
+        <field name="name">ACME: Guarantee Expiry Reminders</field>
+        <field name="model_id" ref="model_acme_project_guarantee"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_guarantee_expiry()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+</odoo>

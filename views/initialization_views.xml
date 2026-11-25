@@ -1,0 +1,7 @@
+<odoo><record id="project_manual_initialization" model="ir.ui.view"><field name="name">project.manual.boq.initialization</field><field name="model">project.project</field><field name="inherit_id" ref="acme_project_core.project_form"/><field name="arch" type="xml">
+    <xpath expr="//page[@name='acme_boq']" position="before"><page name="acme_initial_boq" string="Initial BOQ Setup" invisible="acme_boq_initialized" groups="project.group_project_manager">
+        <p>Select a contract sales order, or enter the initial customer/company/currency and contract values manually. Enter BOQ rows on the BOQ tab. Finalize once checked; later edits use the approval workflow. Tender bridge handovers finalize automatically.</p>
+        <group><field name="acme_boq_vat_rate"/><field name="acme_cost_budget"/></group>
+        <button name="action_acme_finalize_boq" type="object" string="Finalize Initial BOQ" class="btn-primary"/>
+    </page></xpath>
+</field></record></odoo>

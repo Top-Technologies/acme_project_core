@@ -1,0 +1,30 @@
+<odoo><record id="certificate_list" model="ir.ui.view"><field name="name">acme.project.certificate.list</field><field name="model">acme.project.certificate</field><field name="arch" type="xml">
+        <list><field name="name"/><field name="date"/><field name="project_id"/><field name="work_amount"/><field name="retention_amount"/><field name="recovery_amount"/><field name="balance_before_tax"/><field name="currency_id"/><field name="state"/></list>
+    </field></record>
+    <record id="certificate_form" model="ir.ui.view"><field name="name">acme.project.certificate.form</field><field name="model">acme.project.certificate</field><field name="arch" type="xml">
+        <form><header>
+            <button name="action_load_boq" type="object" string="Load BOQ" invisible="state != 'draft'"/>
+            <button name="action_refresh_boq" type="object" string="Refresh BOQ Details" invisible="state != 'draft'"/>
+            <button name="action_certify" type="object" string="Certify" class="btn-primary" invisible="state != 'draft'" groups="project.group_project_manager"/>
+            <button name="action_cancel" type="object" string="Cancel" invisible="state != 'draft'"/>
+            <button name="action_print" type="object" string="Print Certificate"/>
+            <field name="state" widget="statusbar"/>
+        </header><sheet>
+            <h1><field name="name"/></h1>
+            <group name="acme_recovery_details" string="Advance Recovery">
+                <field name="acme_rebate_amount" readonly="state != 'draft'"/>
+                <field name="acme_proposed_recovery"/>
+                <field name="acme_recovery_override" readonly="state != 'draft'"/>
+                <field name="acme_recovery_override_reason" readonly="state != 'draft'"/>
+            </group>
+            <group><group><field name="project_id" readonly="state != 'draft'"/><field name="date" readonly="state != 'draft'"/><field name="currency_id"/><field name="company_id" groups="base.group_multi_company"/></group>
+                <group><field name="retention_percent" readonly="state != 'draft'"/><field name="recovery_percent" readonly="state != 'draft'"/><field name="certified_by_id"/><field name="certified_at"/></group></group>
+            <field name="line_ids" readonly="state != 'draft'"><list editable="bottom"><field name="project_id" column_invisible="True"/><field name="boq_id" domain="[('project_id', '=', parent.project_id)]" options="{'no_create': True}"/><field name="reference"/><field name="name"/><field name="product_specification" optional="show"/><field name="contract_quantity"/><field name="previous_quantity"/><field name="quantity"/><field name="cumulative_quantity"/><field name="unit_rate"/><field name="amount" sum="Current work"/><field name="currency_id" column_invisible="True"/></list></field>
+            <group><group string="Previously Certified"><field name="previous_work"/><field name="previous_retention"/><field name="previous_recovery"/></group>
+                <group string="This Certificate"><field name="work_amount"/><field name="retention_amount"/><field name="recovery_amount"/><field name="balance_before_tax"/></group></group>
+            <p class="text-muted">This certificate records executed work and contractual deductions. Tax, withholding, retention accounting and final invoice treatment require Finance review; this balance is not automatically a tax invoice total. Previous quantities are fixed when Certify is clicked.</p>
+            <group><field name="invoice_id" invisible="state != 'certified'" domain="[('move_type', '=', 'out_invoice'), ('acme_project_id', '=', project_id), ('state', '!=', 'cancel')]" options="{'no_create': True}"/>
+                <field name="signed_takeoff_filename" invisible="1"/><field name="signed_takeoff" filename="signed_takeoff_filename"/><field name="remarks" readonly="state != 'draft'"/></group>
+        </sheet><chatter/></form>
+    </field></record>
+</odoo>

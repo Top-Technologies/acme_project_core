@@ -1,0 +1,96 @@
+<odoo><record id="boq_revision_company" model="ir.rule"><field name="name">BOQ approval history company</field><field name="model_id" ref="model_acme_project_boq_revision"/><field name="domain_force">[('company_id', 'in', company_ids)]</field></record>
+    <record id="boq_revision_project" model="ir.rule"><field name="name">BOQ approval history visibility</field><field name="model_id" ref="model_acme_project_boq_revision"/><field name="groups" eval="[(4, ref('project.group_project_user'))]"/><field name="domain_force">['|', ('project_id.privacy_visibility', '!=', 'followers'), '|', ('project_id.user_id', '=', user.id), ('project_id.message_partner_ids', 'in', [user.partner_id.id])]</field></record>
+    <record id="boq_revision_manager" model="ir.rule"><field name="name">BOQ approval history manager</field><field name="model_id" ref="model_acme_project_boq_revision"/><field name="groups" eval="[(4, ref('project.group_project_manager'))]"/><field name="domain_force">[(1, '=', 1)]</field></record>
+    <record id="boq_company" model="ir.rule">
+        <field name="name">Project BOQ company</field><field name="model_id" ref="model_acme_project_boq"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="guarantee_company" model="ir.rule">
+        <field name="name">Project guarantee company</field><field name="model_id" ref="model_acme_project_guarantee"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="certificate_company" model="ir.rule">
+        <field name="name">Project certificate company</field><field name="model_id" ref="model_acme_project_certificate"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="measurement_company" model="ir.rule">
+        <field name="name">Project measurement company</field><field name="model_id" ref="model_acme_project_measurement"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="boq_project" model="ir.rule">
+        <field name="name">BOQ project visibility</field><field name="model_id" ref="model_acme_project_boq"/>
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]"/>
+        <field name="domain_force">['|', ('project_id.privacy_visibility', '!=', 'followers'), '|', ('project_id.user_id', '=', user.id), ('project_id.message_partner_ids', 'in', [user.partner_id.id])]</field>
+    </record>
+    <record id="guarantee_project" model="ir.rule">
+        <field name="name">Guarantee project visibility</field><field name="model_id" ref="model_acme_project_guarantee"/>
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]"/>
+        <field name="domain_force">['|', ('project_id.privacy_visibility', '!=', 'followers'), '|', ('project_id.user_id', '=', user.id), ('project_id.message_partner_ids', 'in', [user.partner_id.id])]</field>
+    </record>
+    <record id="certificate_project" model="ir.rule">
+        <field name="name">Certificate project visibility</field><field name="model_id" ref="model_acme_project_certificate"/>
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]"/>
+        <field name="domain_force">['|', ('project_id.privacy_visibility', '!=', 'followers'), '|', ('project_id.user_id', '=', user.id), ('project_id.message_partner_ids', 'in', [user.partner_id.id])]</field>
+    </record>
+    <record id="measurement_project" model="ir.rule">
+        <field name="name">Measurement project visibility</field><field name="model_id" ref="model_acme_project_measurement"/>
+        <field name="groups" eval="[(4, ref('project.group_project_user'))]"/>
+        <field name="domain_force">['|', ('project_id.privacy_visibility', '!=', 'followers'), '|', ('project_id.user_id', '=', user.id), ('project_id.message_partner_ids', 'in', [user.partner_id.id])]</field>
+    </record>
+    <record id="boq_manager" model="ir.rule"><field name="name">BOQ manager</field><field name="model_id" ref="model_acme_project_boq"/><field name="groups" eval="[(4, ref('project.group_project_manager'))]"/><field name="domain_force">[(1, '=', 1)]</field></record>
+    <record id="guarantee_manager" model="ir.rule"><field name="name">Guarantee manager</field><field name="model_id" ref="model_acme_project_guarantee"/><field name="groups" eval="[(4, ref('project.group_project_manager'))]"/><field name="domain_force">[(1, '=', 1)]</field></record>
+    <record id="certificate_manager" model="ir.rule"><field name="name">Certificate manager</field><field name="model_id" ref="model_acme_project_certificate"/><field name="groups" eval="[(4, ref('project.group_project_manager'))]"/><field name="domain_force">[(1, '=', 1)]</field></record>
+    <record id="measurement_manager" model="ir.rule"><field name="name">Measurement manager</field><field name="model_id" ref="model_acme_project_measurement"/><field name="groups" eval="[(4, ref('project.group_project_manager'))]"/><field name="domain_force">[(1, '=', 1)]</field></record>
+<record id="task_additional_work_company" model="ir.rule"><field name="name">Task additional_work company</field><field name="model_id" ref="model_acme_task_additional_work"/><field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field></record><record id="task_additional_work_visibility" model="ir.rule"><field name="name">Task additional_work visibility</field><field name="model_id" ref="model_acme_task_additional_work"/><field name="domain_force">['|', '&amp;', ('project_id', '=', False), '|', ('task_id.user_ids', 'in', [user.id]), ('task_id.create_uid', '=', user.id), '&amp;', ('project_id', '!=', False), '|', ('project_id.privacy_visibility', '!=', 'followers'), '|', ('project_id.user_id', '=', user.id), '|', ('project_id.message_partner_ids', 'in', [user.partner_id.id]), ('task_id.user_ids', 'in', [user.id])]</field><field name="groups" eval="[(4, ref('project.group_project_user'))]"/></record><record id="task_additional_work_manager" model="ir.rule"><field name="name">Task additional_work manager</field><field name="model_id" ref="model_acme_task_additional_work"/><field name="domain_force">['|', ('project_id', '!=', False), '|', ('task_id.user_ids', 'in', [user.id]), ('task_id.create_uid', '=', user.id)]</field><field name="groups" eval="[(4, ref('project.group_project_manager'))]"/></record><record id="task_challenge_company" model="ir.rule"><field name="name">Task challenge company</field><field name="model_id" ref="model_acme_task_challenge"/><field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field></record><record id="task_challenge_visibility" model="ir.rule"><field name="name">Task challenge visibility</field><field name="model_id" ref="model_acme_task_challenge"/><field name="domain_force">['|', '&amp;', ('project_id', '=', False), '|', ('task_id.user_ids', 'in', [user.id]), ('task_id.create_uid', '=', user.id), '&amp;', ('project_id', '!=', False), '|', ('project_id.privacy_visibility', '!=', 'followers'), '|', ('project_id.user_id', '=', user.id), '|', ('project_id.message_partner_ids', 'in', [user.partner_id.id]), ('task_id.user_ids', 'in', [user.id])]</field><field name="groups" eval="[(4, ref('project.group_project_user'))]"/></record><record id="task_challenge_manager" model="ir.rule"><field name="name">Task challenge manager</field><field name="model_id" ref="model_acme_task_challenge"/><field name="domain_force">['|', ('project_id', '!=', False), '|', ('task_id.user_ids', 'in', [user.id]), ('task_id.create_uid', '=', user.id)]</field><field name="groups" eval="[(4, ref('project.group_project_manager'))]"/></record><record id="site_resource_company" model="ir.rule"><field name="name">site_resource_company</field><field name="model_id" ref="model_acme_site_resource"/><field name="domain_force">[('company_id', 'in', company_ids)]</field></record><record id="resource_use_company" model="ir.rule"><field name="name">resource_use_company</field><field name="model_id" ref="model_acme_task_resource_use"/><field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field></record><record id="resource_use_visibility" model="ir.rule"><field name="name">resource_use_visibility</field><field name="model_id" ref="model_acme_task_resource_use"/><field name="domain_force">['|', '&amp;', ('project_id', '=', False), '|', ('task_id.user_ids', 'in', [user.id]), ('task_id.create_uid', '=', user.id), '&amp;', ('project_id', '!=', False), '|', ('project_id.privacy_visibility', '!=', 'followers'), '|', ('project_id.user_id', '=', user.id), '|', ('project_id.message_partner_ids', 'in', [user.partner_id.id]), ('task_id.user_ids', 'in', [user.id])]</field><field name="groups" eval="[(4, ref('project.group_project_user'))]"/></record><record id="resource_use_manager" model="ir.rule"><field name="name">resource_use_manager</field><field name="model_id" ref="model_acme_task_resource_use"/><field name="domain_force">['|', ('project_id', '!=', False), '|', ('task_id.user_ids', 'in', [user.id]), ('task_id.create_uid', '=', user.id)]</field><field name="groups" eval="[(4, ref('project.group_project_manager'))]"/></record><record id="manpower_company" model="ir.rule"><field name="name">manpower_company</field><field name="model_id" ref="model_acme_task_manpower"/><field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field></record><record id="manpower_visibility" model="ir.rule"><field name="name">manpower_visibility</field><field name="model_id" ref="model_acme_task_manpower"/><field name="domain_force">['|', '&amp;', ('project_id', '=', False), '|', ('task_id.user_ids', 'in', [user.id]), ('task_id.create_uid', '=', user.id), '&amp;', ('project_id', '!=', False), '|', ('project_id.privacy_visibility', '!=', 'followers'), '|', ('project_id.user_id', '=', user.id), '|', ('project_id.message_partner_ids', 'in', [user.partner_id.id]), ('task_id.user_ids', 'in', [user.id])]</field><field name="groups" eval="[(4, ref('project.group_project_user'))]"/></record><record id="manpower_manager" model="ir.rule"><field name="name">manpower_manager</field><field name="model_id" ref="model_acme_task_manpower"/><field name="domain_force">['|', ('project_id', '!=', False), '|', ('task_id.user_ids', 'in', [user.id]), ('task_id.create_uid', '=', user.id)]</field><field name="groups" eval="[(4, ref('project.group_project_manager'))]"/></record>
+
+    <record id="module_category_acme_project" model="ir.module.category">
+        <field name="name">ACME Project</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="privilege_acme_project_governance" model="res.groups.privilege">
+        <field name="name">ACME Project Governance</field>
+        <field name="category_id" ref="acme_project_core.module_category_acme_project"/>
+    </record>
+
+    <record id="group_acme_edm" model="res.groups">
+        <field name="name">EDM (Engineering &amp; Design Manager)</field>
+        <field name="privilege_id" ref="privilege_acme_project_governance"/>
+        <field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/>
+    </record>
+
+    <record id="group_acme_odm" model="res.groups">
+        <field name="name">ODM (Operations Department Manager)</field>
+        <field name="privilege_id" ref="privilege_acme_project_governance"/>
+        <field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/>
+    </record>
+
+    <record id="group_acme_dm" model="res.groups">
+        <field name="name">DM (Division Manager)</field>
+        <field name="privilege_id" ref="privilege_acme_project_governance"/>
+        <field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/>
+    </record>
+
+    <record id="group_acme_dgm" model="res.groups">
+        <field name="name">DGM Operations</field>
+        <field name="privilege_id" ref="privilege_acme_project_governance"/>
+        <field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/>
+    </record>
+
+    <record id="group_acme_gm" model="res.groups">
+        <field name="name">GM (General Manager)</field>
+        <field name="privilege_id" ref="privilege_acme_project_governance"/>
+        <field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/>
+    </record>
+    <record id="module_category_acme_project" model="ir.module.category">
+        <field name="name">ACME Project</field><field name="sequence">20</field>
+    </record>
+    <record id="privilege_acme_project_governance" model="res.groups.privilege">
+        <field name="name">ACME Project Governance</field><field name="category_id" ref="module_category_acme_project"/>
+    </record>
+    <record id="group_acme_edm" model="res.groups"><field name="name">EDM (Engineering &amp; Design Manager)</field><field name="privilege_id" ref="privilege_acme_project_governance"/><field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/></record>
+    <record id="group_acme_odm" model="res.groups"><field name="name">ODM (Operations Department Manager)</field><field name="privilege_id" ref="privilege_acme_project_governance"/><field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/></record>
+    <record id="group_acme_dm" model="res.groups"><field name="name">DM (Division Manager)</field><field name="privilege_id" ref="privilege_acme_project_governance"/><field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/></record>
+    <record id="group_acme_dgm" model="res.groups"><field name="name">DGM Operations</field><field name="privilege_id" ref="privilege_acme_project_governance"/><field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/></record>
+    <record id="group_acme_gm" model="res.groups"><field name="name">GM (General Manager)</field><field name="privilege_id" ref="privilege_acme_project_governance"/><field name="implied_ids" eval="[(4, ref('project.group_project_manager'))]"/></record>
+</odoo>

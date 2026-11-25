@@ -1,0 +1,41 @@
+<odoo><record id="report_site_performance" model="ir.actions.report"><field name="name">Site Work and Remarks Report</field><field name="model">acme.project.site.report</field><field name="report_type">qweb-pdf</field><field name="report_name">acme_project_core.site_performance_document</field></record>
+    <template id="site_performance_document">
+        <t t-call="web.html_container"><t t-foreach="docs" t-as="o"><t t-set="data" t-value="o._report_data()"/><t t-call="web.external_layout"><div class="page">
+            <h2>Project Site Work and Remarks Report</h2>
+            <p>Based on ACME/OF/131.</p>
+            <p><strong>Project:</strong> <span t-field="o.project_id.name"/><br/>
+                <strong>Location:</strong> <span t-field="o.project_location"/><br/>
+                <strong>Period:</strong> <span t-field="o.date_from"/> to <span t-field="o.date_to"/><br/>
+                <strong>Report Date:</strong> <span t-field="o.report_date"/></p>
+            <h3>1. Manpower Deployed</h3>
+            <table class="table table-sm"><thead><tr><th>No.</th><th>Job Position / Assigned Person</th><th>Quantity</th><th>Days</th></tr></thead><tbody>
+                <tr t-foreach="data['manpower']" t-as="entry"><td><span t-out="entry_index + 1"/></td><td><span t-field="entry.job_position"/> — <span t-field="entry.user_id"/><br/><small><span t-field="entry.date"/></small></td><td>1</td><td><span t-field="entry.days_used"/></td></tr>
+                <tr t-if="not data['manpower']" t-foreach="data['assigned_users']" t-as="person"><td><span t-out="person_index + 1"/></td><td><span t-field="person.name"/> — job position not recorded</td><td>1</td><td>Not recorded</td></tr>
+            </tbody></table>
+            <p t-if="not data['manpower']">Assignment list only. Enter dated manpower deployment rows for actual job positions and days; task assignment does not prove attendance.</p>
+            <h3>2. Vehicles / Equipment / Tools Utilized</h3>
+            <table class="table table-sm"><thead><tr><th>No.</th><th>Description / Identifier</th><th>Quantity</th><th>Days Used</th></tr></thead><tbody>
+                <tr t-foreach="data['resources']" t-as="entry"><td><span t-out="entry_index + 1"/></td><td><span t-field="entry.resource_id.name"/> <span t-field="entry.resource_id.identifier"/><br/><small><span t-field="entry.date"/></small></td><td><span t-field="entry.quantity"/></td><td><span t-field="entry.days_used"/></td></tr>
+                <tr t-if="not data['resources']"><td colspan="4">No resource utilization entered for this period.</td></tr>
+            </tbody></table>
+            <h3>3. Work Done — Current Task Snapshot</h3>
+            <p>Tasks are selected by planned-date overlap. Quantities are current cumulative task values at report generation; they are not execution measured within this period.</p>
+            <table class="table table-sm"><thead><tr><th>No.</th><th>Type of Work / Task</th><th>Measurement</th><th>Planned</th><th>Completed</th><th>Remaining Work</th></tr></thead><tbody>
+                <tr t-foreach="data['tasks']" t-as="task"><td><span t-out="task_index + 1"/></td><td><span t-field="task.name"/><t t-if="task.parent_id"><br/><small>Subtask</small></t></td><td><span t-field="task.acme_uom_id"/></td><td><span t-field="task.acme_planned_quantity"/></td><td><span t-field="task.acme_executed_quantity"/></td><td><span t-field="task.acme_remaining_quantity"/></td></tr>
+                <tr t-if="not data['tasks']"><td colspan="6">No tasks with planned dates overlapping this period.</td></tr>
+            </tbody></table>
+            <h3>4. Additional Remarks</h3>
+            <table class="table table-sm"><thead><tr><th>No.</th><th>Type of Work</th><th>Measurement</th><th>Completed</th><th>Remaining Work</th><th>Remark</th></tr></thead><tbody>
+                <tr t-foreach="data['additional']" t-as="entry"><td><span t-out="entry_index + 1"/></td><td><span t-field="entry.work_type"/><br/><small><span t-field="entry.date"/> — <span t-field="entry.task_id.name"/></small></td><td><span t-field="entry.uom_id"/></td><td><span t-field="entry.completed_quantity"/></td><td><span t-field="entry.remaining_quantity"/></td><td><span t-field="entry.remark"/></td></tr>
+                <tr t-if="not data['additional']"><td colspan="6">No additional-work entries in this period.</td></tr>
+            </tbody></table>
+            <h3>5. Challenges Encountered and Measures Taken</h3>
+            <table class="table table-sm"><thead><tr><th>No.</th><th>Challenges Encountered</th><th>Measures Taken</th></tr></thead><tbody>
+                <tr t-foreach="data['challenges']" t-as="entry"><td><span t-out="entry_index + 1"/></td><td><span t-field="entry.challenge"/><br/><small><span t-field="entry.date"/> — <span t-field="entry.task_id.name"/></small></td><td><span t-field="entry.measure_taken"/></td></tr>
+                <tr t-if="not data['challenges']"><td colspan="3">No challenge entries in this period.</td></tr>
+            </tbody></table>
+            <p><strong>Reported By:</strong> <span t-field="o.reported_by_id"/> Signature: ____________________ Date: ____________________</p>
+            <p><strong>Approved By:</strong> ____________________ Signature: ____________________ Date: ____________________</p>
+        </div></t></t></t>
+    </template>
+</odoo>

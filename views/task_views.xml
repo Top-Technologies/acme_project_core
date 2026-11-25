@@ -1,0 +1,53 @@
+<odoo><record id="task_work_dates" model="ir.ui.view">
+        <field name="name">project.task.acme.work.dates</field><field name="model">project.task</field><field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='date_deadline_and_recurring_task']" position="after">
+                <field name="acme_start_date"/><field name="acme_end_date"/>
+            </xpath>
+            <xpath expr="//field[@name='child_ids']/list/field[@name='date_deadline']" position="after">
+                <field name="acme_start_date" optional="show"/><field name="acme_end_date" optional="show"/>
+                <field name="acme_uom_id" optional="show"/><field name="acme_planned_quantity" optional="show"/><field name="acme_executed_quantity" optional="show"/><field name="acme_remaining_quantity" optional="show"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="acme_work_quantities" string="Work Quantities">
+                    <group><field name="acme_uom_id"/><field name="acme_planned_quantity"/><field name="acme_executed_quantity"/><field name="acme_remaining_quantity"/></group>
+                    <group string="Execution Scope" invisible="not project_id">
+                        <field name="acme_execution_approach"/>
+                        <field name="acme_execution_skill_ids" widget="many2many_tags"/>
+                        <field name="acme_execution_role_id"/>
+                        <button name="action_acme_plan_crew" type="object" string="Open Crew Planning"
+                                invisible="acme_execution_approach != 'own_crew'"/>
+                    </group>
+                    <p>Executed quantity is the current cumulative quantity entered by the team. Remaining = Planned − Executed. Completing a task does not automatically complete its quantity. A negative remaining quantity indicates execution above plan.</p>
+                </page>
+                <page name="acme_additional_remarks" string="Additional Remarks" groups="project.group_project_user">
+                    <field name="acme_additional_work_ids">
+                        <list editable="bottom" open_form_view="True"><field name="sequence" widget="handle"/><field name="date"/><field name="work_type"/><field name="uom_id"/><field name="completed_quantity"/><field name="remaining_quantity"/><field name="remark"/><field name="recorded_by_id" optional="hide"/></list>
+                        <form string="Additional Work and Remark"><group><field name="date"/><field name="work_type"/><field name="uom_id"/><field name="completed_quantity"/><field name="remaining_quantity"/><field name="remark"/><field name="recorded_by_id"/></group></form>
+                    </field>
+                    <p>Use one dated line per additional work item. Remaining Work is entered manually; these lines do not change BOQ quantities, invoice values or the main task's executed quantity.</p>
+                </page>
+                <page name="acme_challenges" string="Challenges and Solutions" groups="project.group_project_user">
+                    <field name="acme_challenge_ids">
+                        <list editable="bottom" open_form_view="True"><field name="sequence" widget="handle"/><field name="date"/><field name="challenge"/><field name="measure_taken"/><field name="recorded_by_id" optional="hide"/></list>
+                        <form string="Challenge and Measure Taken"><group><field name="date"/><field name="challenge"/><field name="measure_taken"/><field name="recorded_by_id"/></group></form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="task_list_work_dates" model="ir.ui.view">
+        <field name="name">project.task.list.acme.work.dates</field><field name="model">project.task</field><field name="inherit_id" ref="project.project_task_view_tree_main_base"/>
+        <field name="arch" type="xml"><xpath expr="//list/field[@name='date_deadline']" position="after"><field name="acme_start_date" optional="show"/><field name="acme_end_date" optional="show"/><field name="acme_uom_id" optional="hide"/><field name="acme_planned_quantity" optional="hide"/><field name="acme_executed_quantity" optional="hide"/><field name="acme_remaining_quantity" optional="hide"/></xpath></field>
+    </record>
+    <record id="planning_slot_execution_scope" model="ir.ui.view">
+        <field name="name">planning.slot.acme.execution.scope</field>
+        <field name="model">planning.slot</field>
+        <field name="inherit_id" ref="project_forecast.planning_slot_view_form"/>
+        <field name="arch" type="xml">
+            <field name="project_id" position="after">
+                <field name="acme_scope_task_id" domain="[('project_id', '=', project_id), ('acme_execution_approach', '=', 'own_crew')]" options="{'no_create': True}"/>
+            </field>
+        </field>
+    </record>
+</odoo>

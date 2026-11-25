@@ -1,0 +1,18 @@
+<odoo noupdate="1">
+    <record id="seq_acme_project_code" model="ir.sequence">
+        <field name="name">ACME Project Code</field>
+        <field name="code">acme.project.code</field>
+        <field name="prefix">PROJ/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_acme_advance_requisition" model="ir.sequence">
+        <field name="name">ACME Advance Requisition</field>
+        <field name="code">acme.advance.requisition</field>
+        <field name="prefix">ADV/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

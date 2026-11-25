@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_boq_user,Project BOQ proposal,model_acme_project_boq,project.group_project_user,1,1,1,0
+access_guarantee_user,Guarantee read,model_acme_project_guarantee,project.group_project_user,1,0,0,0
+access_guarantee_manager,Guarantee management,model_acme_project_guarantee,project.group_project_manager,1,1,1,0
+access_certificate_user,Certificate preparation,model_acme_project_certificate,project.group_project_user,1,1,1,1
+access_measurement_user,Measurement preparation,model_acme_project_measurement,project.group_project_user,1,1,1,1
+access_boq_revision_user,BOQ approval history,model_acme_project_boq_revision,project.group_project_user,1,1,1,0
+access_task_additional_work,Task additional work,model_acme_task_additional_work,project.group_project_user,1,1,1,1
+access_task_challenge,Task challenges,model_acme_task_challenge,project.group_project_user,1,1,1,1
+access_site_report,Site report wizard,model_acme_project_site_report,project.group_project_user,1,1,1,1
+access_site_resource_user,Site resources read,model_acme_site_resource,project.group_project_user,1,0,0,0
+access_site_resource_manager,Site resources management,model_acme_site_resource,project.group_project_manager,1,1,1,0
+access_site_resource_use,Site resource use,model_acme_task_resource_use,project.group_project_user,1,1,1,1
+access_task_manpower,Task manpower,model_acme_task_manpower,project.group_project_user,1,1,1,1
+access_initial_boq_manager,Manual initial BOQ,model_acme_project_boq,project.group_project_manager,1,1,1,1

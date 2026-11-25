@@ -1,0 +1,56 @@
+<odoo><record id="project_completion_fields" model="ir.ui.view"><field name="name">project.completion.fields</field><field name="model">project.project</field><field name="inherit_id" ref="acme_project_core.project_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='acme_boq']" position="inside">
+                <separator string="Actual Execution from Signed Takeoff"/>
+                <field name="acme_boq_ids"><list editable="bottom" create="0" delete="0"><field name="reference" readonly="1"/><field name="name" readonly="1"/><field name="acme_original_quantity" readonly="1"/><field name="quantity" string="Revised / Updated Qty" readonly="1"/><field name="acme_quantity_variation" readonly="1"/><field name="unit" readonly="1"/><field name="selling_rate" readonly="1"/><field name="executed_quantity" readonly="1"/><field name="executed_amount"/><field name="execution_difference"/><field name="currency_id" column_invisible="True"/></list></field>
+                <group><field name="acme_takeoff_filename" invisible="1"/><field name="acme_takeoff_file" filename="acme_takeoff_filename"/></group>
+                <p>Actual execution can exceed contract quantity. It does not automatically increase approved scope, certification capacity or invoice value. Store the signed takeoff in the selected Documents folder using standard Documents, or upload the copy here.</p>
+            </xpath>
+        </field>
+    </record>
+    <record id="certificate_load_execution" model="ir.ui.view"><field name="name">certificate.load.execution</field><field name="model">acme.project.certificate</field><field name="inherit_id" ref="acme_project_core.certificate_form"/><field name="arch" type="xml"><xpath expr="//header" position="inside"><button name="action_load_executed_boq" type="object" string="Load Uncertified Execution" invisible="state != 'draft'"/></xpath></field></record>
+    <record id="task_resources_form" model="ir.ui.view"><field name="name">task.resources.form</field><field name="model">project.task</field><field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='date_deadline_and_recurring_task']" position="after">
+                <field name="acme_late" invisible="1"/>
+                <field name="acme_delay_reason" readonly="not acme_late"/>
+                <field name="acme_delay_note" invisible="not acme_delay_reason" readonly="not acme_late"/>
+                <field name="acme_late_predecessor_ids" widget="many2many_tags" invisible="not acme_late_predecessor_ids"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside"><page name="acme_site_resources" string="Site Resources" groups="project.group_project_user">
+                <separator string="Vehicles, Equipment and Tools Used"/>
+                <field name="acme_resource_ids"><list editable="bottom"><field name="date"/><field name="resource_id"/><field name="quantity"/><field name="days_used"/></list></field>
+                <separator string="Manpower Deployment"/>
+                <field name="acme_manpower_ids"><list editable="bottom"><field name="date"/><field name="user_id" domain="[('id', 'in', parent.user_ids)]"/><field name="job_position"/><field name="days_used"/></list></field>
+                <p>Record actual deployment days. Task assignments alone do not prove attendance or days used. Resource records are a simple register; this does not update Fleet or Maintenance.</p>
+            </page></xpath>
+        </field>
+    </record>
+    <record id="task_delay_search" model="ir.ui.view"><field name="name">task.delay.search</field><field name="model">project.task</field><field name="inherit_id" ref="project.view_task_search_form"/><field name="arch" type="xml"><xpath expr="//search" position="inside"><field name="acme_start_date"/><field name="acme_end_date"/><field name="acme_delay_reason"/><filter name="acme_overdue" string="Weekly Review: Overdue" domain="[('acme_open_overdue', '=', True)]"/><filter name="acme_delay_group" string="Delay Reason" context="{'group_by': 'acme_delay_reason'}"/></xpath></field></record>
+    <record id="site_resource_register_button" model="ir.ui.view"><field name="name">project.site.resource.register</field><field name="model">project.project</field><field name="inherit_id" ref="project.edit_project"/><field name="arch" type="xml"><xpath expr="//header" position="inside"><button name="action_acme_resources" type="object" string="Site Resource Register" groups="project.group_project_manager"/></xpath></field></record><record id="resource_list" model="ir.ui.view"><field name="name">site.resource.list</field><field name="model">acme.site.resource</field><field name="arch" type="xml"><list editable="bottom"><field name="name"/><field name="kind"/><field name="identifier"/><field name="company_id" groups="base.group_multi_company"/><field name="active" optional="hide"/></list></field></record>
+    <record id="task_delay_review_list" model="ir.ui.view">
+        <field name="name">project.task.delay.review.list</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <list string="Delay / Overdue Tasks" editable="bottom" create="0" delete="0" import="0">
+                <field name="name" string="Task Name" readonly="1"/>
+                <field name="acme_delay_planned_end" readonly="1"/>
+                <field name="acme_delay_days" readonly="1"/>
+                <field name="user_ids" string="Assignees" widget="many2many_tags" readonly="1"/>
+                <field name="acme_can_edit_delay_reason" column_invisible="1"/>
+                <field name="acme_delay_reason" readonly="not acme_can_edit_delay_reason"/>
+            </list>
+        </field>
+    </record>
+    <record id="project_delay_review_button" model="ir.ui.view">
+        <field name="name">project.project.delay.review.button</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_acme_overdue_tasks" type="object" string="Delay / Overdue Tasks"
+                        groups="project.group_project_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

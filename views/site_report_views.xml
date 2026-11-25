@@ -1,0 +1,10 @@
+<odoo><record id="site_report_form" model="ir.ui.view"><field name="name">acme.project.site.report.form</field><field name="model">acme.project.site.report</field>
+        <field name="arch" type="xml"><form string="Site Work and Remarks Report"><group><field name="project_id"/><field name="date_from"/><field name="date_to"/><field name="report_date"/><field name="project_location"/><field name="reported_by_id"/></group>
+            <p>Additional-work and challenge lines use their entry dates. Main work rows select tasks whose planned dates overlap the period and show their CURRENT cumulative quantities, not historical or period execution. Assigned users are listed once; job positions, deployment days and vehicle usage are not inferred.</p>
+            <footer><button name="action_print" type="object" string="Print Report" class="btn-primary"/><button string="Cancel" special="cancel"/></footer>
+        </form></field>
+    </record>
+    <record id="project_site_report_button" model="ir.ui.view"><field name="name">project.site.report.button</field><field name="model">project.project</field><field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml"><xpath expr="//header" position="inside"><button name="action_acme_site_report" type="object" string="Site Work and Remarks Report" groups="project.group_project_user"/></xpath></field>
+    </record>
+</odoo>

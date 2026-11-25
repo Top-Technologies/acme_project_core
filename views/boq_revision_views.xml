@@ -1,0 +1,49 @@
+<odoo><record id="project_boq_inline_approval" model="ir.ui.view">
+        <field name="name">project.boq.inline.approval</field><field name="model">project.project</field><field name="inherit_id" ref="acme_project_core.project_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='acme_boq']/field[@name='acme_boq_ids']" position="before">
+                <group>
+                    <group><field name="acme_boq_state"/><field name="acme_boq_revision"/>
+                        <field name="acme_boq_approver_id" readonly="acme_boq_state != 'approved'"/>
+                        <field name="acme_boq_requester_id"/>
+                    </group>
+                    <group><field name="acme_boq_reason" readonly="acme_boq_state != 'draft' or acme_boq_requester_id != uid"/>
+                        <field name="acme_boq_decision_note" readonly="acme_boq_state != 'pending' or acme_boq_approver_id != uid"/>
+                    </group>
+                </group>
+                <div class="mb-3">
+                    <button name="action_acme_edit_boq" type="object" string="Edit BOQ Proposal" class="btn-primary" invisible="acme_boq_state != 'approved'"/>
+                    <button name="action_acme_submit_boq" type="object" string="Submit BOQ Changes" class="btn-primary" invisible="acme_boq_state != 'draft' or acme_boq_requester_id != uid"/>
+                    <button name="action_acme_discard_boq" type="object" string="Discard Draft" invisible="acme_boq_state != 'draft' or acme_boq_requester_id != uid"/>
+                    <button name="action_acme_approve_boq" type="object" string="Approve BOQ Changes" class="btn-primary" invisible="acme_boq_state != 'pending' or acme_boq_approver_id != uid"/>
+                    <button name="action_acme_reject_boq" type="object" string="Reject BOQ Changes" invisible="acme_boq_state != 'pending' or acme_boq_approver_id != uid"/>
+                </div>
+                <group string="Proposed BOQ Changes" invisible="acme_boq_state == 'approved'">
+                    <p>Changes become effective only after approval. Enter a reason, review the proposed values and submit. The Tender and contract selling prices remain unchanged.</p>
+                    <field name="acme_boq_ids" nolabel="1" readonly="acme_boq_state != 'draft' or acme_boq_requester_id != uid">
+                        <list editable="bottom" create="0" delete="0">
+                            <field name="reference" readonly="1"/><field name="name" string="Approved Description" readonly="1"/>
+                            <field name="proposed_name"/><field name="proposed_product_name"/><field name="quantity" string="Approved Qty" readonly="1"/>
+                            <field name="proposed_quantity"/><field name="proposed_unit"/>
+                            <field name="proposed_unit_rate" optional="show"/>
+                            <field name="proposed_reference" optional="hide"/><field name="proposed_bill_no" optional="hide"/><field name="proposed_category" optional="hide"/>
+                            <field name="currency_id" column_invisible="True"/>
+                        </list>
+                    </field>
+                </group>
+                <h3>Effective Approved BOQ</h3>
+            </xpath>
+            <xpath expr="//page[@name='acme_boq']" position="inside">
+                <separator string="BOQ Change History"/>
+                <field name="acme_boq_history_ids" readonly="1" nolabel="1">
+                    <list create="0" edit="0" delete="0"><field name="number"/><field name="reason"/><field name="requester_id"/><field name="approver_id"/><field name="submitted_at"/><field name="state"/><field name="decision_by_id"/><field name="decision_at"/></list>
+                    <form string="BOQ Change History" create="0" edit="0" delete="0"><sheet>
+                        <h2><field name="name"/></h2>
+                        <group><field name="state"/><field name="requester_id"/><field name="approver_id"/><field name="submitted_at"/><field name="decision_by_id"/><field name="decision_at"/></group>
+                        <field name="reason"/><field name="decision_note"/><field name="details_html" nolabel="1"/>
+                    </sheet></form>
+                </field>
+            </xpath>
+        </field>
+    </record>
+</odoo>

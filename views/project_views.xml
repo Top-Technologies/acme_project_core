@@ -1,0 +1,70 @@
+<odoo><record id="project_form" model="ir.ui.view">
+        <field name="name">project.form.acme.extensions</field><field name="model">project.project</field><field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <field name="acme_boq_initialized" invisible="1"/><button name="action_acme_certificates" type="object" class="oe_stat_button" icon="fa-file-text-o"><field name="acme_certificate_count" widget="statinfo" string="Certificates"/></button>
+                </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="acme_contract" string="Contract and Payments">
+                    <group><group>
+                        <field name="partner_id" string="Customer" readonly="acme_boq_initialized"/>
+                        <field name="company_id" string="Company" readonly="1"/>
+                        <field name="acme_order_id" string="Project Source" readonly="acme_boq_initialized"/>
+                        <field name="acme_cost_budget" string="Internal Cost Build-up" readonly="acme_boq_initialized"/>
+                        <field name="acme_contract_reference"/>
+                        <field name="acme_contract_type"/>
+                        <field name="acme_contract_currency_id" readonly="acme_boq_initialized"/>
+                        <field name="acme_documents_folder_id"/>
+                        <field name="acme_advance_type"/>
+                        <field name="acme_advance_percent" invisible="acme_advance_type != 'percentage'"/>
+                        <field name="acme_contract_advance_amount" readonly="1" invisible="acme_advance_type != 'percentage'"/>
+                        <field name="acme_advance_fixed_amount" invisible="acme_advance_type != 'fixed'"/>
+                        <field name="acme_advance_guarantee_required"/>
+                        <field name="acme_advance_required_before_work"/>
+                        <field name="acme_recovery_basis"/>
+                        <field name="acme_recovery_method"/>
+                        <field name="acme_recovery_installment" invisible="acme_recovery_method != 'fixed'"/>
+                        <field name="acme_contract_amount" readonly="acme_boq_initialized"/><field name="acme_contract_total" readonly="acme_boq_initialized"/><field name="acme_bond_basis"/><field name="acme_performance_bond_amount"/>
+                    </group><group>
+                        <field name="date_start" string="Project Start Date"/><field name="date" string="Project End Date"/>
+                        <field name="acme_retention_percent"/><field name="acme_recovery_percent"/>
+                        <field name="acme_advance_received"/><field name="acme_recovered"/><field name="acme_advance_balance"/>
+                    </group></group>
+                    <p class="text-muted mt-3">Contract value is the selling value excluding tax captured at handover. Advance received is recorded separately from an approved request or unpaid invoice. Configure the agreed recovery rate before certifying work.</p>
+                </page>
+                <page name="acme_boq" string="BOQ">
+                    <field name="acme_boq_ids" readonly="acme_boq_initialized"><list create="1" edit="1" delete="1">
+                        <field name="sequence" optional="hide"/><field name="reference"/><field name="bill_no"/><field name="category"/><field name="product_name"/><field name="name"/>
+                        <field name="unit"/><field name="acme_original_quantity" readonly="1"/>
+                        <field name="quantity" string="Revised / Updated Qty"/><field name="acme_quantity_variation" readonly="1"/>
+                        <field name="unit_rate" string="Tender BOQ Rate"/><field name="amount" sum="BOQ Total"/>
+                        <field name="selling_rate"/><field name="currency_id" column_invisible="True"/>
+                    </list><form string="Initial BOQ Line"><sheet><group><group>
+                        <field name="project_id" invisible="1"/><field name="company_id" invisible="1"/><field name="currency_id" invisible="1"/>
+                        <field name="sequence"/><field name="reference"/><field name="bill_no"/><field name="category"/>
+                        <field name="product_name"/><field name="name"/>
+                    </group><group>
+                        <field name="unit"/><field name="quantity"/><field name="unit_rate" string="Tender BOQ Rate"/>
+                        <field name="selling_rate"/><field name="amount" readonly="1"/><field name="source_line_id" invisible="1"/>
+                    </group></group></sheet></form></field>
+                </page>
+                <page name="acme_summary" string="Summary Sheet"><field name="acme_summary_html" nolabel="1"/></page>
+                <page name="acme_guarantees" string="Guarantee Details">
+                    <field name="acme_guarantee_ids"><list><field name="name"/><field name="guarantee_type"/><field name="bank_id"/><field name="amount"/><field name="currency_id"/><field name="issue_date"/><field name="expiry_date"/><field name="state" widget="badge"/></list>
+                        <form string="Guarantee Details"><header>
+                            <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'draft'" groups="acme_project_core.group_acme_dm"/>
+                            <button name="action_activate" type="object" string="Activate" class="btn-secondary" invisible="state != 'approved'" groups="acme_project_core.group_acme_odm,acme_project_core.group_acme_dm"/>
+                            <button name="action_release" type="object" string="Release" invisible="state != 'active'" groups="acme_project_core.group_acme_dm,acme_project_core.group_acme_dgm"/>
+                            <field name="state" widget="statusbar"/>
+                        </header><sheet><group><field name="project_id" invisible="1"/><field name="company_id" invisible="1"/><field name="currency_id" invisible="1"/>
+                            <field name="name"/><field name="guarantee_type"/><field name="bank_id"/><field name="amount"/><field name="issue_date"/><field name="expiry_date"/>
+                            <field name="scan_filename" invisible="1"/><field name="scan" filename="scan_filename"/><field name="document_id"/>
+                            <field name="signed_contract_filename" invisible="1"/><field name="signed_contract" filename="signed_contract_filename"/>
+                            <button name="action_store_scan" type="object" string="Store / Open Scan in Project Folder"/>
+                        </group></sheet><chatter/></form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    </odoo>
