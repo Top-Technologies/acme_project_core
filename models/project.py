@@ -4,6 +4,13 @@ from odoo.exceptions import UserError, ValidationError
 
 class Project(models.Model):
     _inherit = 'project.project'
+
+    company_id = fields.Many2one(
+        'res.company',
+        string='Company',
+        default=lambda self: self.env.company,
+        readonly=True,
+    )
     acme_order_id = fields.Many2one('sale.order', string='Contract Sales Order', copy=False, ondelete='restrict', check_company=True)
     acme_project_sequence = fields.Char(string='Project Code', copy=False, index=True, tracking=True)
     acme_lifecycle_state = fields.Selection(
