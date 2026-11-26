@@ -11,15 +11,15 @@
                 <strong>Customer:</strong> <span t-field="o.project_id.partner_id"/><br/>
                 <strong>Contract Value Excluding Tax:</strong> <span t-field="o.project_id.acme_contract_amount"/></p>
             <table class="table table-sm"><thead><tr><th>Description</th><th>Previous</th><th>This Period</th><th>To Date</th></tr></thead><tbody>
-                <tr><td>Executed Work</td><td t-field="o.previous_work"/><td t-field="o.work_amount"/><td><span t-out="o.previous_work + o.work_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td></tr>
-                <tr><td>Retention (<span t-field="o.retention_percent"/>%)</td><td t-field="o.previous_retention"/><td t-field="o.retention_amount"/><td><span t-out="o.previous_retention + o.retention_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td></tr>
-                <tr><td>Advance Recovery (<span t-field="o.recovery_percent"/>%)</td><td t-field="o.previous_recovery"/><td t-field="o.recovery_amount"/><td><span t-out="o.previous_recovery + o.recovery_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td></tr>
+                <tr><td>Executed Work</td><td><span t-field="o.previous_work"/></td><td><span t-field="o.work_amount"/></td><td><span t-out="o.previous_work + o.work_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td></tr>
+                <tr><td>Retention (<span t-field="o.retention_percent"/>%)</td><td><span t-field="o.previous_retention"/></td><td><span t-field="o.retention_amount"/></td><td><span t-out="o.previous_retention + o.retention_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td></tr>
+                <tr><td>Advance Recovery (<span t-field="o.recovery_percent"/>%)</td><td><span t-field="o.previous_recovery"/></td><td><span t-field="o.recovery_amount"/></td><td><span t-out="o.previous_recovery + o.recovery_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td></tr>
             </tbody></table>
             <p><strong>Current balance before tax and other adjustments:</strong> <span t-field="o.balance_before_tax"/></p>
             <p><strong>Linked Customer Invoice:</strong> <span t-field="o.invoice_id"/></p>
             <h3>Takeoff Measurements</h3>
             <table class="table table-sm"><thead><tr><th>Item</th><th>Unit</th><th>Contract Qty</th><th>Previous Qty</th><th>Current Qty</th><th>To Date</th><th>Rate</th><th>Current Amount</th></tr></thead><tbody>
-                <tr t-foreach="o.line_ids" t-as="line"><td><span t-field="line.reference"/> <span t-field="line.name"/><br/><span t-field="line.product_specification"/></td><td t-field="line.unit"/><td t-field="line.contract_quantity"/><td t-field="line.previous_quantity"/><td t-field="line.quantity"/><td t-field="line.cumulative_quantity"/><td t-field="line.unit_rate"/><td t-field="line.amount"/></tr>
+                <tr t-foreach="o.line_ids" t-as="line"><td><span t-field="line.reference"/> <span t-field="line.name"/><br/><span t-field="line.product_specification"/></td><td><span t-field="line.unit"/></td><td><span t-field="line.contract_quantity"/></td><td><span t-field="line.previous_quantity"/></td><td><span t-field="line.quantity"/></td><td><span t-field="line.cumulative_quantity"/></td><td><span t-field="line.unit_rate"/></td><td><span t-field="line.amount"/></td></tr>
             </tbody></table>
             <p><strong>Remarks:</strong> <span t-field="o.remarks"/></p>
             <p><strong>Certified By:</strong> <span t-field="o.certified_by_id"/> | <span t-field="o.certified_at"/></p>

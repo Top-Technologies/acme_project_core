@@ -18,6 +18,8 @@ class Project(models.Model):
         default='draft', required=True, readonly=True, copy=False, tracking=True,
     )
     acme_contract_reference = fields.Char(string='Contract Reference', tracking=True)
+    acme_consultant = fields.Char(string='Consultant', default='ERCS', tracking=True)
+    acme_location = fields.Char(string='Project Location', tracking=True)
     acme_boq_vat_rate = fields.Float(string='Tender BOQ VAT (%)')
     acme_documents_folder_id = fields.Many2one('documents.document', string='Project Documents Folder', domain="[('type', '=', 'folder')]", copy=False)
     acme_contract_currency_id = fields.Many2one('res.currency', string='Contract Currency', default=lambda self: self.env.company.currency_id)
